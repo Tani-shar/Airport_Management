@@ -1,0 +1,20 @@
+CREATE TABLE passengers (
+    passenger_id SERIAL PRIMARY KEY,
+    booking_id INTEGER REFERENCES bookings(booking_id),
+    passenger_type VARCHAR(10),  -- 'Adult', 'Child', 'Infant'
+    full_name VARCHAR(100),
+    passport_number VARCHAR(50),
+    seat_preference VARCHAR(20),  -- 'Window', 'Aisle', 'Middle'
+    meal_preference VARCHAR(20),  -- 'Vegetarian', 'Standard', etc.
+    special_assistance VARCHAR(100),
+    assigned_seat VARCHAR(10)  -- Actual seat assigned
+);
+
+CREATE TABLE bookings (
+    booking_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(user_id),  -- who made the booking
+    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_status VARCHAR(20),
+    total_amount DECIMAL(10,2),
+    flight_id INTEGER REFERENCES flights(flight_id)
+);

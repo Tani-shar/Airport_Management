@@ -1,0 +1,72 @@
+.logs-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .logs-table th,
+  .logs-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .logs-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  .logs-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .logs-table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .admin-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .admin-btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .admin-btn-primary:hover {
+    background-color: #0056b3;
+  }
+  
+  .loading-indicator {
+    text-align: center;
+    padding: 20px;
+    font-size: 16px;
+  }
+  
+  .error-message {
+    color: red;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .no-data {
+    text-align: center;
+    padding: 20px;
+    font-style: italic;
+  }

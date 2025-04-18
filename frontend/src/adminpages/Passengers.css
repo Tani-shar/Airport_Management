@@ -1,0 +1,349 @@
+/* Passengers.css */
+.passengers-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .passengers-container h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 20px;
+  }
+  
+  .actions-bar {
+    margin-bottom: 20px;
+    text-align: right;
+  }
+  
+  .passengers-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .passengers-table th,
+  .passengers-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .passengers-table th {
+    background: #f3f4f6;
+    font-weight: 600;
+    font-size: 14px;
+    color: #374151;
+    text-transform: uppercase;
+  }
+  
+  .passengers-table td {
+    font-size: 14px;
+    color: #1f2a44;
+  }
+  
+  .passengers-table tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .passengers-table .no-data {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+  }
+  
+  .expand-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    color: #4b5563;
+    transition: transform 0.2s ease;
+  }
+  
+  .expand-btn:hover {
+    color: #2563eb;
+  }
+  
+  .passenger-details {
+    padding: 16px;
+    background: #f9fafb;
+    border-top: 1px solid #e5e7eb;
+    animation: slideDown 0.3s ease;
+  }
+  
+  .passenger-details h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2a44;
+    margin-bottom: 12px;
+  }
+  
+  .passenger-details p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #374151;
+  }
+  
+  .passenger-details p strong {
+    font-weight: 500;
+    color: #1f2a44;
+  }
+  
+  .loading-indicator {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
+    font-size: 16px;
+  }
+  
+  .error-message {
+    text-align: center;
+    padding: 20px;
+    color: #dc2626;
+    font-size: 16px;
+    background: #fef2f2;
+    border-radius: 8px;
+  }
+  
+  .admin-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+  
+  .admin-btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  .admin-btn:active {
+    transform: translateY(0);
+  }
+  
+  .admin-btn-primary {
+    background: #2563eb;
+    color: #ffffff;
+  }
+  
+  .admin-btn-primary:hover {
+    background: #1d4ed8;
+  }
+  
+  .admin-btn-danger {
+    background: #dc2626;
+    color: #ffffff;
+  }
+  
+  .admin-btn-danger:hover {
+    background: #b91c1c;
+  }
+  
+  .dialog-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+  }
+  
+  .dialog-box {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dialog-box h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2a44;
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .form-group {
+    flex: 1;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 6px;
+  }
+  
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #1f2a44;
+    background: #f9fafb;
+    transition: border-color 0.2s ease;
+  }
+  
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+  }
+  
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  
+  /* Animations */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .passengers-table th,
+    .passengers-table td {
+      padding: 10px;
+      font-size: 13px;
+    }
+  
+    .form-row {
+      flex-direction: column;
+      gap: 12px;
+    }
+  
+    .dialog-box {
+      width: 95%;
+      padding: 16px;
+    }
+  }
+
+  /* Add to Passengers.css */
+.search-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  
+  .search-field {
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #1f2a44;
+    background: #f9fafb;
+    width: 150px;
+    transition: border-color 0.2s ease;
+  }
+  
+  .search-field:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #1f2a44;
+    background: #f9fafb;
+    transition: border-color 0.2s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+  
+  .search-input::placeholder {
+    color: #9ca3af;
+  }
+  
+  /* Adjust actions-bar to space out search and button */
+  .actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .search-container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .search-field {
+      width: 100%;
+    }
+  
+    .actions-bar {
+      flex-direction: column;
+      gap: 12px;
+      align-items: stretch;
+    }
+  
+    .admin-btn-primary {
+      width: 100%;
+    }
+  }
