@@ -16,6 +16,7 @@ pub struct FlightSummary {
     pub date: String,
     pub departure_time: String,
     pub arrival_time: String,
+    pub available_seat : i32,
 }
 
 pub async fn get_flights(
@@ -28,7 +29,8 @@ pub async fn get_flights(
             src.code AS departure,
             dest.code AS arrival,
             f.departure_time,
-            f.arrival_time
+            f.arrival_time,
+            f.seats_available
         FROM flights f
         JOIN airlines a ON f.airline_id = a.airline_id
         JOIN airport src ON f.source = src.code
@@ -41,24 +43,35 @@ pub async fn get_flights(
         .await
     {
         Ok(rows) => {
-            let flights = rows.into_iter()
-                .map(|row| {
-                    let departure_dt: NaiveDateTime = row.get("departure_time");
-                    let arrival_dt: NaiveDateTime = row.get("arrival_time");
+            let mut flights = Vec::new();
+            for row in rows {
+                let departure_dt: NaiveDateTime = row.get("departure_time");
+                let arrival_dt: NaiveDateTime = row.get("arrival_time");
+                let total_seats: i32 = row.get("seats_available");
+                let flight_id: i32 = row.get("flight_id");
+                
+                // Count passengers for this flight from bookings/passengers tables
+                let available_seats = match sqlx::query_scalar::<_, i64>(
+                    "SELECT COUNT(*) FROM passengers p JOIN bookings b ON p.booking_id = b.booking_id WHERE b.flight_id = $1"
+                )
+                .bind(flight_id)
+                .fetch_one(&db_pool)
+                .await {
+                    Ok(count) => total_seats - count as i32,
+                    Err(_) => total_seats  // Fall back to total seats if query fails
+                };
 
-
-
-                    FlightSummary {
-                        flight_id: row.get("flight_id"),
-                        airline: row.get("airline"),
-                        departure: row.get("departure"),
-                        arrival: row.get("arrival"),
-                        date: departure_dt.format("%Y-%m-%d").to_string(),
-                        departure_time: departure_dt.format("%H:%M").to_string(),
-                        arrival_time: arrival_dt.format("%H:%M").to_string(),
-                    }
-                })
-                .collect();
+                flights.push(FlightSummary {
+                    flight_id: row.get("flight_id"),
+                    airline: row.get("airline"),
+                    departure: row.get("departure"),
+                    arrival: row.get("arrival"),
+                    date: departure_dt.format("%Y-%m-%d").to_string(),
+                    departure_time: departure_dt.format("%H:%M").to_string(),
+                    arrival_time: arrival_dt.format("%H:%M").to_string(),
+                    available_seat: available_seats,
+                });
+            }
             Ok(Json(flights))
         },
         Err(err) => Err((StatusCode::INTERNAL_SERVER_ERROR, err.to_string())),
@@ -357,6 +370,7 @@ pub async fn get_admin_booking(
 pub struct DashboardData {
     flight_count: i64,
     passenger_count: i64,
+    total_revenue: i64,
 }
 
 pub async fn get_dashboard_stats(
@@ -388,9 +402,23 @@ pub async fn get_dashboard_stats(
     .count
     .unwrap_or(0);
 
+    let total_revenue = sqlx::query!(
+        r#"SELECT SUM(price) as total_revenue FROM bookings b JOIN flights f ON b.flight_id = f.flight_id"#
+    )
+    .fetch_one(&db_pool)
+    .await
+    .map_err(|err| {
+        let error_msg = format!("Failed to fetch total revenue: {}", err);
+        (StatusCode::INTERNAL_SERVER_ERROR, error_msg)
+    })?
+    .total_revenue
+    .map(|decimal| decimal.to_string().parse::<i64>().unwrap_or(0))
+    .unwrap_or(0);
+
     Ok(Json(DashboardData {
         flight_count,
         passenger_count,
+        total_revenue,
     }))
 }
 

@@ -70,7 +70,7 @@ export const Flights = () => {
             date: formData.date,
             departure_time: formData.departure_time,
             arrival_time: formData.arrival_time,
-            price : parseInt(formData.price) || 15000,
+            price : parseInt(formData.price) || 15000,            
             seats_available: parseInt(formData.available_seats) || 120, // Convert to number
             duration: formData.duration || "2h 30m", // Default value
 
@@ -130,6 +130,7 @@ export const Flights = () => {
             <th>To</th>
             <th>Departure</th>
             <th>Arrival</th>
+            <th>Available Seats</th>
             <th>Date</th>
             <th>Actions</th>
           </tr>
@@ -143,6 +144,7 @@ export const Flights = () => {
               <td>{flight.arrival}</td>
               <td>{flight.departure_time}</td>
               <td>{flight.arrival_time}</td>
+              <td>{flight.available_seat}</td>
               <td>{formatDate(flight.date)}</td>
               <td>
                 {/* <button 

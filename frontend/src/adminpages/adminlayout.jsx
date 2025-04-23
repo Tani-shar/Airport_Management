@@ -99,6 +99,8 @@ const AdminHomepage = () => {
         
         setpassengerno(data.passenger_count);
         setflightno(data.flight_count);
+        setRevenue(data.total_revenue);
+        console.log(data.total_revenue);
         // setRevenue(data.revenue);
       }
       console.log(bookings);
@@ -120,7 +122,7 @@ const AdminHomepage = () => {
     flights: flight_count,
     passengers: passenger_count,
     bookings: bookings.length,
-    revenue: "₹4.2M"
+    revenue: revenue,
   };
 
   // const recentBookings = [

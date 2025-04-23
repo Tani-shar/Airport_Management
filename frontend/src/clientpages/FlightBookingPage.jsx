@@ -113,7 +113,7 @@ const FlightBookingPage = () => {
 
                 <div className="flight-timeline">
                   <div className="time-point">
-                    <p className="time-display">{currentFlight.departure.time}</p>
+                    <p className="time-display">{currentFlight.departureTime}</p>
                     <p className="airport-code">{currentFlight.departure}</p>
                     <p className="city-name">{currentFlight.departure.city}</p>
                   </div>
@@ -124,7 +124,7 @@ const FlightBookingPage = () => {
                   </div>
 
                   <div className="time-point">
-                    <p className="time-display">{currentFlight.arrival.time}</p>
+                    <p className="time-display">{currentFlight.arrivalTime}</p>
                     <p className="airport-code">{currentFlight.arrival}</p>
                     <p className="city-name">{currentFlight.arrival.city}</p>
                   </div>

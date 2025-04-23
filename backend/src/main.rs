@@ -1,4 +1,4 @@
-use adminRoutes::get_dashboard_stats;
+use adminroutes::get_dashboard_stats;
 use axum::{
     extract::Extension,
     routing::{delete, get, post},
@@ -16,7 +16,7 @@ mod auth;
 mod flightroutes;
 mod bookflightroutes;
 mod fetchbookings;
-mod adminRoutes;
+mod adminroutes;
 mod logs;
 
 #[tokio::main]
@@ -53,19 +53,19 @@ async fn main() {
 
         .route("/api/bookings", get(fetchbookings::get_booking))
 
-        .route("/api/admin/flights", get(adminRoutes::get_flights))
+        .route("/api/admin/flights", get(adminroutes::get_flights))
        
-       .route("/api/admin/flights/add", post(adminRoutes::addflight))
+       .route("/api/admin/flights/add", post(adminroutes::addflight))
 
-       .route("/api/admin/flights/delete", delete(adminRoutes::delete_flight))
-       .route("/api/admin/bookings", get(adminRoutes::get_admin_booking))
+       .route("/api/admin/flights/delete", delete(adminroutes::delete_flight))
+       .route("/api/admin/bookings", get(adminroutes::get_admin_booking))
 
-       .route("/api/admin/dashboard", get(adminRoutes::get_dashboard_stats))
+       .route("/api/admin/dashboard", get(adminroutes::get_dashboard_stats))
 
-       .route("/api/admin/passengers", get(adminRoutes::get_passengers))
-       .route("/api/admin/passengers/delete", delete(adminRoutes::deleted_passenger))
+       .route("/api/admin/passengers", get(adminroutes::get_passengers))
+       .route("/api/admin/passengers/delete", delete(adminroutes::deleted_passenger))
         
-        .route("/api/admin/users", get(adminRoutes::get_users))
+        .route("/api/admin/users", get(adminroutes::get_users))
 
         .route("/api/admin/logs", get(logs::get_logs))
         .layer(Extension(db_pool)) // Share DB across routes

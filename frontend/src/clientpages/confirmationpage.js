@@ -42,6 +42,7 @@ const BookingConfirmationPage = () => {
   ];
 
   const currentFlight = flight || defaultFlight;
+  console.log(currentFlight);
   const currentPassengers = passengers || defaultPassengers;
   const currentBookingId = bookingId || `BK${Math.floor(Math.random() * 1000000)}`;
 
@@ -227,8 +228,8 @@ const BookingConfirmationPage = () => {
 
                 <div className="flight-timeline">
                   <div className="time-point">
-                    <p className="time-display">{currentFlight.departure.time}</p>
-                    <p className="airport-code">{currentFlight.departure.airport}</p>
+                    <p className="time-display">{currentFlight.departureTime}</p>
+                    <p className="airport-code">{currentFlight.departure}</p>
                     <p className="city-name">{currentFlight.departure.city}</p>
                   </div>
 
@@ -238,8 +239,8 @@ const BookingConfirmationPage = () => {
                   </div>
 
                   <div className="time-point">
-                    <p className="time-display">{currentFlight.arrival.time}</p>
-                    <p className="airport-code">{currentFlight.arrival.airport}</p>
+                    <p className="time-display">{currentFlight.arrivalTime}</p>
+                    <p className="airport-code">{currentFlight.arrival}</p>
                     <p className="city-name">{currentFlight.arrival.city}</p>
                   </div>
                 </div>

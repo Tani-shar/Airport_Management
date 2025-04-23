@@ -73,20 +73,20 @@ function AppRoutes() {
         },
         body: JSON.stringify({ departure, arrival, departure_date, passengers }),
       });
-
+  
       if (!response.ok) throw new Error("Network response was not ok");
-
+  
       const data = await response.json();
       const formattedFlights = data.flights.map((flight) => ({
         id: flight.flight_id,
         airline: flight.airline_name || "Unknown Airline",
-        flightNumber: flight.flight_number || "N/A",
-        departure: flight.source,
-        arrival: flight.destination,
+        flightNumber: "N/A", // Update if flight_number is added to query
+        departure: flight.source || "N/A",
+        arrival: flight.destination || "N/A",
         departureTime: formatTime(flight.departure_time),
         arrivalTime: formatTime(flight.arrival_time),
         duration: flight.duration || calculateDuration(flight.departure_time, flight.arrival_time),
-        price: flight.price,
+        price: flight.price ? Number(flight.price).toFixed(2) : "0.00",
         seatsAvailable: flight.seats_available || 0,
       }));
       setPassenger(passengers);
@@ -96,11 +96,18 @@ function AppRoutes() {
       console.error("Error fetching flights:", error);
     }
   };
-
+  
   function formatTime(dateTimeString) {
-    const date = new Date(dateTimeString);
+    if (!dateTimeString || typeof dateTimeString !== "string") {
+      return "N/A";
+    }
+    const date = new Date(dateTimeString.trim());
+    if (isNaN(date.getTime())) {
+      return "N/A";
+    }
     return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   }
+  
 
   function calculateDuration(departure, arrival) {
     const dep = new Date(departure);

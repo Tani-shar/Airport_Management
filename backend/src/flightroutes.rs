@@ -5,7 +5,7 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sqlx::{PgPool, types::BigDecimal};
-use time::{PrimitiveDateTime, Time, Date};
+use time::{Date, Time};
 
 #[derive(Debug, Deserialize)]
 pub struct FlightPayLoad {
@@ -19,7 +19,7 @@ pub struct FlightPayLoad {
 struct FlightResult {
     flight_id: i32,
     airline_id: Option<i32>,
-    airline_name: Option<String>, // ✅ Added for display
+    airline_name: Option<String>,
     source: Option<String>,
     destination: Option<String>,
     status: Option<String>,
@@ -28,10 +28,8 @@ struct FlightResult {
     duration: Option<String>,
     price: Option<BigDecimal>,
     seats_available: Option<i32>,
-    #[sqlx(rename = "departure")]
-    departure: Option<PrimitiveDateTime>,
-    #[sqlx(rename = "arrival")]
-    arrival: Option<PrimitiveDateTime>,
+    departure_time: Option<String>,
+    arrival_time: Option<String>,
 }
 
 pub async fn search_flights(
@@ -40,10 +38,9 @@ pub async fn search_flights(
 ) -> AxumJson<serde_json::Value> {
     println!("Received flight search request: {:?}", payload);
 
-    // Parse the date
     let departure_date = match Date::parse(
         &payload.departure_date,
-        &time::format_description::parse("[year]-[month]-[day]").unwrap()
+        &time::format_description::parse("[year]-[month]-[day]").unwrap(),
     ) {
         Ok(dt) => dt,
         Err(_) => {
@@ -56,7 +53,6 @@ pub async fn search_flights(
     let start_datetime = departure_date.with_time(Time::MIDNIGHT);
     let end_datetime = departure_date.with_time(Time::from_hms(23, 59, 59).unwrap());
 
-    // SQL query with JOIN on airlines
     match sqlx::query_as!(
         FlightResult,
         r#"
@@ -72,8 +68,8 @@ pub async fn search_flights(
             f.duration,
             f.price as "price: _",
             f.seats_available,
-            f.departure_time as "departure: _",
-            f.arrival_time as "arrival: _"
+            TO_CHAR(f.departure_time, 'YYYY-MM-DD"T"HH24:MI:SS') as departure_time,
+            TO_CHAR(f.arrival_time, 'YYYY-MM-DD"T"HH24:MI:SS') as arrival_time
         FROM flights f
         JOIN airlines a ON f.airline_id = a.airline_id
         WHERE 
